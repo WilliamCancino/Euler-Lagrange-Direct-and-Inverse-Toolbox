@@ -29,34 +29,10 @@ The core of this project is the ability to define a dynamical system symbolicall
 
 The repository is organized as follows to separate logic, system definitions and run scripts:
 
-├── RunDirect.m # Script to run the direct problem
-├── RunInverse.m # Script to run the inverse problem
+├── RunDirect.m # Runs the direct problem (forward dynamics)
+├── RunInverse.m # Runs the inverse problem (inverse dynamics)
 ├── Scripts/
-│ ├── Animator/ # Scripts to generate the animation of each system (AnimatorXX.m)
-│ │ ├── Animator01.m
-│ │ ├── Animator02.m
-│ │ ├── Animator03.m
-│ │ ├── Animator04.m
-│ │ ├── Animator05.m
-│ │ ├── Animator06.m
-│ │ ├── Animator07.m
-│ ├── General/ # Utility functions (solvers, plotters, etc.)
-│ │ ├── AddNoise.m
-│ │ ├── ChooseAnim.m
-│ │ ├── DynamicEqSolver.m
-│ │ ├── IsNumeric.m
-│ │ ├── LagrangeDynamicEqDeriver.m
-│ │ ├── ObjFunc.m
-│ │ ├── PlotEq.m
-│ │ ├── SsOdeSolver.m
-│ │ ├── SymsWs.m
-│ │ ├── UpdateConst.m
-├── Variables/
-│ ├── Vars01.m # Definition file for system 01 (e.g. double pendulum)
-│ ├── Vars02.m
-│ ├── Vars03.m
-│ ├── Vars04.m
-│ ├── Vars05.m
-│ ├── Vars06.m
-│ ├── Vars07.m
+│ ├── Animator/ # Scripts to generate animations for each dynamic system
+│ └── General/ # Utility functions (solvers, plotting, symbolic tools, etc.)
+├── Variables/ # Symbolic definitions of mechanical dynamic systems
 └── README.md
