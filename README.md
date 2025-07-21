@@ -25,14 +25,76 @@ The core of this project is the ability to define a dynamical system symbolicall
 - **Advanced visualization:** Generates comparative graphs and animations in GIF format of the system dynamics.
 - **Modular design:** Allows new dynamic systems to be easily defined by creating a single configuration file in the `Variables/` folder.
 
-## 📂 Project structure.
+### 📂 Project structure.
 
 The repository is organized as follows to separate logic, system definitions and run scripts:
 
-├── RunDirect.m # Runs the direct problem (forward dynamics)
-├── RunInverse.m # Runs the inverse problem (inverse dynamics)
-├── Scripts/
-│ ├── Animator/ # Scripts to generate animations for each dynamic system
-│ └── General/ # Utility functions (solvers, plotting, symbolic tools, etc.)
-├── Variables/ # Symbolic definitions of mechanical dynamic systems
-└── README.md
+- `RunDirect.m` and `RunInverse.m` are the main scripts for running the **direct** and **inverse** problem for each system.
+- `Scripts/Animator/` contains custom animation scripts for each dynamic system.
+- `Scripts/General/` includes general-purpose functions: 
+  - `DynamicEqSolver.m`, `SsOdeSolver.m` – solvers
+  - `LagrangeDynamicEqDeriver.m` – symbolic derivation of equations
+  - `AddNoise.m`, `PlotEq.m`, etc. – utilities
+- `Variables/` holds the symbolic and physical definitions of each system.
+
+
+## ⚙️ How to Use
+
+### 1. Direct problem
+
+Use `RunDirect` to simulate the behavior of a system when you know all its parameters.
+
+#### 🔧 Syntax
+
+```matlab
+RunDirect(num_ex, opt_awgn, dBs)
+```
+
+#### 📥 Parameters
+- **num_ex (Integer):** The ID of the system to simulate (e.g., 1 for Vars01.m).
+- **opt_awgn (String, Optional):** Determines how noise is displayed in the plot.
+  - 'normal': No noise (default)
+  - 'noise': Adds Gaussian noise
+  - 'both': Shows both the clean and noisy results
+- **dBs (Integer, Optional):** Signal-to-noise ratio (in dB), required if opt_awgn is 'noise' or 'both'.
+
+#### ✅ Examples
+```matlab
+% Basic simulation of system 1 with no noise
+RunDirect(1)
+
+% Simulate system 1 and plot only the noisy results (SNR = 20 [dB])
+RunDirect(1, 'noise', 20)
+
+% Simulate system 1 and plot both the clean and noisy results (SNR = 15 [dB])
+RunDirect(1, 'both', 15)
+```
+
+### 2. Inverse problem
+Use `RunInverse` to estimate a system's unknown parameters based on "measured" data.
+
+#### 🔧 Syntax
+```matlab
+RunInverse(num_ex, dBs, method)
+```
+
+#### 📥 Parameters
+- **num_ex (Integer):** The ID of the system to analyze.
+- **dBs (Integer, Optional):** The Signal-to-noise ratio (in dB) used to generate the "measured" data. Defaults to 20 [dB].
+- **method (String or Integer, Optional):** The optimization algorithm to use. Defaults to 'PSO' (Particle Swarm Optimization).
+  
+#### ✅ Examples
+```matlab
+% Basic estimation for system 1 using default noise (20 dB) and optimizer (PSO)
+RunInverse(1)
+
+% Estimate parameters using the Genetic Algorithm ('GA') with more noise (10 dB)
+RunInverse(1, 10, 'GA')
+
+% Estimate parameters using Levenberg-Marquardt (method 2) with less noise (25 dB)
+RunInverse(1, 25, 2)
+```
+
+
+## 🙏 Acknowledgments
+This toolbox was developed by extending and adapting the foundational work of Mansour Torabi. Many of the core functions for symbolic derivation and animation are based on his original repository (https://github.com/Mansourt/Matlab_Euler-Lagrange_Library_for_Deriving_Equations_of_Dynamic_Systems). We are grateful for his contribution to the open-source community.
